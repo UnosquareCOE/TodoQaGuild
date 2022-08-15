@@ -48,7 +48,7 @@ erDiagram
         string email
         string password
     }
-    todo_statuses ||--o{ todos : "has status of"
+    todo_statuses ||--o{ todos : ""
     projects ||--o{ todos: ""
     users ||--o{ projects: ""
 ```
