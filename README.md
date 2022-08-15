@@ -18,6 +18,8 @@ A website to store and manage todo items. It permits:
 
 ## Entity Relationship Diagram (ERD):
 
+Diagram created using [mermaid] (https://mermaid-js.github.io/mermaid/#/)
+
 ```mermaid
 %%{init: {'theme':'neutral'}}%%
 erDiagram
