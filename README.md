@@ -8,7 +8,7 @@ A website to store and manage todo items. It permits:
 
 # Database and Persistance
 
-## We use the following technologies:
+## Overview of technologies:
 
 - Postgres
   - Postgres is the provider we have selected for this project. Postgres is a powerful, open source relational database and is known for reliability, integrity and performance.
@@ -58,6 +58,13 @@ erDiagram
 # API
 
 With the APIs we are trying to follow established RESTFUL conventions as much as possible, you can find a great guide [here](https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design)
+
+## Overview of technologies:
+
+- Express
+  - Express is what we use to provide the web framework & routing for our application. It gives us the ability to accept http requests and respond appropriately. 
+- Nodemon
+  - Nodemon is a tool that simply monitors your directory with your running application and will `live re-load` if a file change occurs.
 
 ## Running locally:
 
