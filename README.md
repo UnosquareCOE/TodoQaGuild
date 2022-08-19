@@ -59,6 +59,28 @@ erDiagram
 
 With the APIs we are trying to follow established RESTFUL conventions as much as possible, you can find a great guide [here](https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design)
 
+## Running locally:
+
+To run the API locally you simply need to:
+
+1. navigate with your terminal into `./server`
+2. (optional and only if changed) run `npm i` or `npm install`
+3. run `npm start`
+
+After this you can start hitting the endpoints below using the URI and method/verb.
+
+## Setting up node locally:
+
+I recommend using [NVM](https://github.com/nvm-sh/nvm) or a similar node version manager, installation instructions can be found on the github repository.
+
+Once NVM is installed the following commands are available:
+
+- `nvm install x.x.x` – Installs a specific version of node
+- `nvm use x.x.x` – switch to a specific version of node
+- `nvm ls` – what versions of node we have installed, what version we’re using and some of the main LTS releases available
+
+For the purposes of this project, our node requirement isn't a very high version, but using the latest will probably be ok.
+
 ## Endpoints:
 
 ### Projects
