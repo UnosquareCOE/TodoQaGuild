@@ -54,3 +54,57 @@ erDiagram
     projects ||--o{ todos: ""
     users ||--o{ projects: ""
 ```
+
+# API
+
+With the APIs we are trying to follow established RESTFUL conventions as much as possible, you can find a great guide [here](https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design)
+
+## Endpoints:
+
+### Projects
+
+```
+GET - /projects/ - GETS ALL PROJECTS - May also have query arguments = /projects?name=test&updateDate=01/01/2022
+
+GET - /projects/{projectId} - GETS A SINGLE PROJECT - typically also includes more information
+
+POST - /projects/ - CREATES A NEW PROJECT - HTTP BODY - used to create the new record - mime type application/json
+
+PUT - /projects/{projectId} - REPLACES/UPDATES A PROJECT - path argument to identify - HTTP BODY - used to update the record - mime type application/json
+
+DELETE - /projects/{projectId} - DELETES A PROJECT - path argument to identify
+```
+
+### Todos
+
+```
+GET - /projects/{projectId}/todos - GETS ALL TODOS - May also have query arguments = /projects/{projectId}/todos?name=test
+
+GET - /projects/{projectId}/todos/{todoId} - GETS A SINGLE TODO - typically also includes more information
+
+POST - /projects/{projectId}/todos/ - CREATES A NEW TODO - HTTP BODY - used to create the new record - mime type application/json
+
+PUT - /projects/{projectId}/todos/{todoId} - REPLACES/UPDATES A PROJECT - path argument to identify - HTTP BODY - used to update the record - mime type application/json
+
+DELETE - /projects/{projectId}/todos/{todoId} - DELETES A TODO - path argument to identify
+```
+
+### TodoStatuses
+
+```
+GET - /todos/statuses
+```
+
+### Users
+
+```
+GET - /users/ - GETS ALL USERS - May also have query arguments = /users?name=test
+
+GET - /users/{userId} - GETS A SINGLE USER - typically also includes more information
+
+POST - /users/ - CREATES A NEW USER - HTTP BODY - used to create the new record - mime type application/json
+
+PUT - /users/{userId} - REPLACES/UPDATES A USER - path argument to identify - HTTP BODY - used to update the record - mime type application/json
+
+DELETE - /users/{userId} - DELETES A USER - path argument to identify
+```
