@@ -61,8 +61,10 @@ With the APIs we are trying to follow established RESTFUL conventions as much as
 
 ## Overview of technologies:
 
+- NPM
+  - NPM is a package manager for Javascript that allows us to import packages from the npm package registry. There are many options available for this tool, but for our sessions we will mostly use `npm start` and `npm install`.
 - Express
-  - Express is what we use to provide the web framework & routing for our application. It gives us the ability to accept http requests and respond appropriately. 
+  - Express is what we use to provide the web framework & routing for our application. It gives us the ability to accept http requests and respond appropriately.
 - Nodemon
   - Nodemon is a tool that simply monitors your directory with your running application and will `live re-load` if a file change occurs.
 
