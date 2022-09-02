@@ -68,7 +68,7 @@ With the APIs we are trying to follow established RESTFUL conventions as much as
 - Nodemon
   - Nodemon is a tool that simply monitors your directory with your running application and will `live re-load` if a file change occurs.
 - Swagger
-  - Swagger is configured for the tool and can be accessed (here)[http://localhost:3000/api-docs] we can also access the open api specification itself by accessing (here)[http://localhost:3000/swagger.json].
+  - Swagger is configured for the tool and can be accessed [here](http://localhost:3000/api-docs) we can also access the open api specification itself by accessing [here](http://localhost:3000/swagger.json).
 
 ## Running locally:
 
@@ -94,7 +94,7 @@ For the purposes of this project, our node requirement isn't a very high version
 
 ## API Documentation
 
-To facilitate the generation of our open API specification and swagger we use two packages: - (swagger-jsdoc)[https://github.com/Surnet/swagger-jsdoc] - (swagger-ui-express)[https://github.com/scottie1984/swagger-ui-express]
+To facilitate the generation of our open API specification and swagger we use two packages: - [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) - [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express)
 
 The configuration is pretty straightforward. We simply add this to our index.js
 
@@ -225,4 +225,4 @@ Firstly we add an array of the validation we want, these will typically be:
 - param - will verify path arguments for the field specified.
 - body - will verify request body for the field specified.
 
-Additional details can be found (here)[https://express-validator.github.io/docs/check-api.html]
+Additional details can be found [here](https://express-validator.github.io/docs/check-api.html)
