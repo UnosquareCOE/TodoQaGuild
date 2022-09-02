@@ -1,4 +1,6 @@
 const { Router } = require("express");
+const { validationUtils } = require("../utils");
+const { check } = require("express-validator");
 const router = Router();
 
 /**
@@ -84,7 +86,26 @@ router
  *       201:
  *         description: Project Created
  */
-router.route("/").post((req, res) => res.send("Hello POST1"));
+router
+  .route("/")
+  .post(
+    [
+      check("name")
+        .isLength({ min: 3 })
+        .withMessage("the name must have minimum length of 3")
+        .trim(),
+      check("description")
+        .isLength({ min: 8, max: 255 })
+        .withMessage(
+          "your password should have a min length of 8 characters and max length of 255"
+        ),
+      check("key")
+        .isLength({ min: 3, max: 3 })
+        .withMessage("your key should be 3 characters only"),
+    ],
+    validationUtils.validator,
+    (req, res) => res.send("Hello POST1")
+  );
 
 /**
  * @swagger
