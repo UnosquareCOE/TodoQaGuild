@@ -94,11 +94,19 @@ For the purposes of this project, our node requirement isn't a very high version
 
 ## API Documentation
 
-To facilitate the generation of our open API specification and swagger we use two packages: - [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) - [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express)
+To facilitate the generation of our open API specification and swagger we use two packages:
+
+- [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc)
+- [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express)
 
 The configuration is pretty straightforward. We simply add this to our index.js
 
 ```
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
+
+...
+
 const swaggerDefinition = {
   openapi: "3.0.0",
   info: {
@@ -117,6 +125,8 @@ const openapiSpecification = swaggerJsdoc({
   swaggerDefinition,
   apis: ["./routers/*.js"],
 });
+
+...
 
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(openapiSpecification));
 app.use("/api-docs", (req, res) => res.json(openapiSpecification).status(200));
