@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { validationUtils } = require("../utils");
-const { check } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const router = Router();
 
 /**
@@ -90,20 +90,20 @@ router
   .route("/")
   .post(
     [
-      check("name")
-        .isLength({ min: 3 })
+      body("name")
+        .isString()
         .withMessage("the name must have minimum length of 3")
         .trim(),
-      check("description")
-        .isLength({ min: 8, max: 255 })
+      body("description")
+        .isString()
         .withMessage(
           "your password should have a min length of 8 characters and max length of 255"
         ),
-      check("key")
+      body("key")
         .isLength({ min: 3, max: 3 })
         .withMessage("your key should be 3 characters only"),
     ],
-    validationUtils.validator,
+    validationUtils.validate,
     (req, res) => res.send("Hello POST1")
   );
 
