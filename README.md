@@ -226,3 +226,23 @@ Firstly we add an array of the validation we want, these will typically be:
 - body - will verify request body for the field specified.
 
 Additional details can be found [here](https://express-validator.github.io/docs/check-api.html)
+
+We then set how we want to handle if there are errors. In the above example I use `validationUtils.validate`, which looks like:
+
+```
+const { validationResult } = require("express-validator");
+
+function validate(req, res, next) {
+  const error = validationResult(req);
+  const hasError = !error.isEmpty();
+
+  if (hasError) {
+    res.status(400).json({ error: error.array() });
+  } else {
+    next();
+  }
+}
+
+const validationUtils = { validate };
+module.exports = validationUtils;
+```
