@@ -24,7 +24,7 @@ jobs:
         # it's also possible to supply specific environment variables by using the -e argument here. e.g. -e ./Internal_Staging.postman_environment.json
       - name: Run POSTMAN collection
         run: |
-          newman run Todos\ API.postman_collection.json -r htmlextra --reporter-htmlextra-export TestResults/htmlreport.html --reporter-htmlextra-darkTheme
+          newman run Todos\ API.postman_collection.json -r htmlextra --reporter-htmlextra-export TestResults/htmlreport.html
       - name: Output the run Details
         uses: actions/upload-artifact@v2
         with:
