@@ -21,7 +21,7 @@ jobs:
           npm install -g newman-reporter-htmlextra
       - name: Start application
         run: |
-          npm start --prefix /server
+          npm i && npm start --prefix /server
       - name: Make Directory for results
         run: mkdir -p TestResults
         # it's also possible to supply specific environment variables by using the -e argument here. e.g. -e ./Internal_Staging.postman_environment.json
