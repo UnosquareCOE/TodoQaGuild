@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  regression:
+  text_execution:
     runs-on: ubuntu-latest
     steps:
       - name: 🛎 Checkout
@@ -24,7 +24,7 @@ jobs:
         # it's also possible to supply specific environment variables by using the -e argument here. e.g. -e ./Internal_Staging.postman_environment.json
       - name: Run POSTMAN collection
         run: |
-          newman run ./Todos API.postman_collection.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
+          newman run Todos\ API.postman_collection.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
       - name: Output the run Details
         uses: actions/upload-artifact@v2
         with:
