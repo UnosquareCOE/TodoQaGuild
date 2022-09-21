@@ -256,3 +256,72 @@ function validate(req, res, next) {
 const validationUtils = { validate };
 module.exports = validationUtils;
 ```
+
+## Prisma
+
+We use a technology called [Prisma](https://github.com/prisma/prisma), this allows us to scan our database, create models that represent the tables and using these models perform CRUD operations on our database.
+
+As we previously created configured database with Flyway, we don't need to use Prisma to carry out any migrations(which it does support), instead we want to use it with the existing database pathway. The details on configuring that can be found [here](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases-typescript-postgres)
+
+In terms of usage of prisma, it's relatively straightforward for most operations (but can get a little complicated as the query complexity increases). Some examples can be found below:
+
+### Query a table
+
+```
+  const projects = await prisma.projects.findMany({});
+```
+
+### Find a single record
+
+```
+  const project = await prisma.projects.findUnique({
+    where: {
+      id: parseInt(projectId),
+    },
+  });
+```
+
+### Create a record
+
+```
+  await prisma.projects.create({
+    data: {
+      name: name,
+      description: description,
+      key: key,
+    },
+  });
+```
+
+### Update a record
+
+```
+  await prisma.projects.update({
+    where: {
+      id: parseInt(projectId),
+    }
+    data: {
+      name: name,
+      description: description,
+      key: key,
+    },
+  });
+```
+
+### Delete a record
+
+```
+  await prisma.projects.delete({
+    where: {
+      id: parseInt(projectId),
+    },
+  });
+```
+
+### Architecture
+
+In terms of the architectural patterns we're applying on the API. We are making use of _Model-View-Controller_ (MVC). MVC helps us to implement separation of concerns as we designate responsibilities for certain parts of our application.
+
+MVC allows us to move away from potentially having larger files and help to keep our application more organised
+
+Additional we're also using the _Layered Architecture_ - More details to follow.
