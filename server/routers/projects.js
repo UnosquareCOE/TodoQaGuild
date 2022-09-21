@@ -23,7 +23,17 @@ const router = Router();
  *       204:
  *         description: No content
  */
-router.route("/").get((req, res) => res.send("Hello GET1"));
+router.route("/").get(async (req, res) => {
+  const projects = await prisma.projects.findMany({
+    select: {
+      id: true,
+      name: true,
+      key: true,
+    },
+  });
+
+  res.status(200).json(projects);
+});
 
 /**
  * @swagger
@@ -50,9 +60,16 @@ router.route("/").get((req, res) => res.send("Hello GET1"));
  *       204:
  *         description: No content
  */
-router
-  .route("/:projectId(\\d+)")
-  .get((req, res) => res.send("Hello GET SINGLE"));
+router.route("/:projectId(\\d+)").get(async (req, res) => {
+  const { projectId } = req.params;
+  const project = await prisma.projects.findUnique({
+    where: {
+      id: parseInt(projectId),
+    },
+  });
+
+  res.status(200).json(project);
+});
 
 /**
  * @swagger
@@ -96,20 +113,24 @@ router
         .trim(),
       body("description")
         .isString()
-        .withMessage(
-          "your password should have a min length of 8 characters and max length of 255"
-        ),
+        .withMessage("description is required.")
+        .trim(),
       body("key")
         .isLength({ min: 3, max: 3 })
         .withMessage("your key should be 3 characters only"),
     ],
     validationUtils.validate,
     async (req, res) => {
+      const { name, description, key } = req.body;
       await prisma.projects.create({
         data: {
-        
+          name: name,
+          description: description,
+          key: key,
         },
       });
+
+      res.sendStatus(201);
     }
   );
 

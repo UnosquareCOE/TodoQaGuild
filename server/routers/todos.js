@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const router = Router();
 
+const { todosController } = require("../controllers");
+
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
@@ -24,10 +26,6 @@ const prisma = new PrismaClient();
  *       204:
  *         description: No content
  */
-router.route("/statuses").get(async (req, res) => {
-  const todoStatuses = await prisma.todo_statuses.findMany({});
-
-  res.status(200).json(todoStatuses);
-});
+router.route("/statuses").get(todosController.getTodoStatuses);
 
 module.exports = router;
