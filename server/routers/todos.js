@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const router = Router();
 
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
+
 /**
  * @swagger
  * /projects/{projectId}/todos:
@@ -26,7 +30,11 @@ const router = Router();
  *       204:
  *         description: No content
  */
-router.route("/").get((req, res) => res.send("Hello GET TODOS"));
+router.route("/").get(async (req, res) => {
+  const todoStatuses = await prisma.todo_statuses.findMany({});
+
+  res.status(200).json(todoStatuses);
+});
 
 /**
  * @swagger

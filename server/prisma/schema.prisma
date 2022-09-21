@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model flyway_schema_history {
+  installed_rank Int      @id(map: "flyway_schema_history_pk")
+  version        String?  @db.VarChar(50)
+  description    String   @db.VarChar(200)
+  type           String   @db.VarChar(20)
+  script         String   @db.VarChar(1000)
+  checksum       Int?
+  installed_by   String   @db.VarChar(100)
+  installed_on   DateTime @default(now()) @db.Timestamp(6)
+  execution_time Int
+  success        Boolean
+
+  @@index([success], map: "flyway_schema_history_s_idx")
+}
+
+model projects {
+  id          Int     @id(map: "projects_pk") @default(autoincrement())
+  name        String
+  description String?
+  key         String
+  is_deleted  Boolean @default(false)
+  user_id     Int?
+  users       users?  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "projects_users_user_id_fk")
+  todos       todos[]
+}
+
+model todo_statuses {
+  id    Int     @id(map: "todo_statuses_pk") @default(autoincrement())
+  name  String
+  todos todos[]
+}
+
+model todos {
+  id             Int            @id(map: "todos_pk") @default(autoincrement())
+  summary        String
+  description    String?
+  created_date   DateTime       @default(now()) @db.Timestamp(6)
+  updated_date   DateTime?      @db.Timestamp(6)
+  todo_status_id Int?
+  project_id     Int?
+  projects       projects?      @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "todos_projects_project_id_fk")
+  todo_statuses  todo_statuses? @relation(fields: [todo_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "todos_todo_statuses_todo_status_id_fk")
+}
+
+model users {
+  id       Int        @id(map: "users_pk") @default(autoincrement())
+  name     String
+  email    String
+  password String
+  projects projects[]
+}
