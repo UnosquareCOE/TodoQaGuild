@@ -5,7 +5,12 @@ const morgan = require("morgan");
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
 
-const { projectsRouter, todosRouter, usersRouter } = require("./routers");
+const {
+  projectsRouter,
+  projectTodosRouter,
+  todosRouter,
+  usersRouter,
+} = require("./routers");
 
 const swaggerDefinition = {
   openapi: "3.0.0",
@@ -38,7 +43,8 @@ app.use("/swagger.json", (req, res) =>
   res.json(openapiSpecification).status(200)
 );
 
-app.use("/projects/:projectId(\\d+)/todos", todosRouter);
+app.use("/projects/:projectId(\\d+)/todos", projectTodosRouter);
+app.use("/todos", todosRouter);
 app.use("/projects", projectsRouter);
 app.use("/users", usersRouter);
 
