@@ -1,8 +1,7 @@
 const { Router } = require("express");
-const router = Router();
+const { projectTodoController } = require("../controllers");
 
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const router = Router({ mergeParams: true });
 
 /**
  * @swagger
@@ -29,21 +28,7 @@ const prisma = new PrismaClient();
  *       204:
  *         description: No content
  */
-router.route("/").get(async (req, res) => {
-  const { projectId } = req.params;
-
-  const todos = await prisma.todos.findMany({
-    where: {
-      project_id: projectId,
-    },
-    select: {
-      id: true,
-      summary: true,
-    },
-  });
-
-  res.status(200).json(todos);
-});
+router.route("/").get(projectTodoController.getAllProjectTodos);
 
 /**
  * @swagger
@@ -74,17 +59,7 @@ router.route("/").get(async (req, res) => {
  *       204:
  *         description: No content
  */
-router.route("/:todoId(\\d+)").get(async (req, res) => {
-  const { todoId } = req.params;
-
-  const todo = await prisma.todos.findUnique({
-    where: {
-      id: parseInt(todoId),
-    },
-  });
-
-  res.status(200).json(todo);
-});
+router.route("/:todoId(\\d+)").get(projectTodoController.getProjectTodo);
 
 /**
  * @swagger
@@ -118,7 +93,7 @@ router.route("/:todoId(\\d+)").get(async (req, res) => {
  *       201:
  *         description: Todo Created
  */
-router.route("/").post((req, res) => res.send("Hello POST TODO"));
+router.route("/").post(projectTodoController.createProjectTodo);
 
 /**
  * @swagger
@@ -161,7 +136,7 @@ router.route("/").post((req, res) => res.send("Hello POST TODO"));
  *       201:
  *         description: Project Updated
  */
-router.route("/:todoId(\\d+)").put((req, res) => res.send("Hello PUT TODO"));
+router.route("/:todoId(\\d+)").put(projectTodoController.updateProjectTodo);
 
 /**
  * @swagger
@@ -186,8 +161,6 @@ router.route("/:todoId(\\d+)").put((req, res) => res.send("Hello PUT TODO"));
  *       201:
  *         description: todo Deleted
  */
-router
-  .route("/:todoId(\\d+)")
-  .delete((req, res) => res.send("Hello DELETE TODO"));
+router.route("/:todoId(\\d+)").delete(projectTodoController.deleteProjectTodo);
 
 module.exports = router;

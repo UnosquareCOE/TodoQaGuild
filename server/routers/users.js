@@ -1,4 +1,8 @@
 const { Router } = require("express");
+const { validationUtils } = require("../utils");
+const { body } = require("express-validator");
+const { userController } = require("../controllers");
+
 const router = Router();
 
 /**
@@ -21,7 +25,7 @@ const router = Router();
  *       204:
  *         description: No content
  */
-router.route("/").get((req, res) => res.send("Hello GET USERS"));
+router.route("/").get(userController.getAllUsers);
 
 /**
  * @swagger
@@ -48,9 +52,7 @@ router.route("/").get((req, res) => res.send("Hello GET USERS"));
  *       204:
  *         description: No content
  */
-router
-  .route("/:userId(\\d+)")
-  .get((req, res) => res.send("Hello GET SINGLE USER"));
+router.route("/:userId(\\d+)").get(userController.getUser);
 
 /**
  * @swagger
@@ -84,7 +86,24 @@ router
  *       201:
  *         description: User Created
  */
-router.route("/").post((req, res) => res.send("Hello POST USER"));
+router.route("/").post(
+  [
+    body("name")
+      .isLength({ min: 3 })
+      .withMessage("the name must have minimum length of 3")
+      .trim(),
+    body("email").isEmail().withMessage("a valid email must be supplied"),
+    body("password")
+      .isLength({ min: 8, max: 15 })
+      .withMessage("your password should have min and max length between 8-15")
+      .matches(/\d/)
+      .withMessage("your password should have at least one number")
+      .matches(/[!@#$%^&*(),.?":{}|<>]/)
+      .withMessage("your password should have at least one special character"),
+  ],
+  validationUtils.validate,
+  userController.createUser
+);
 
 /**
  * @swagger
@@ -123,7 +142,24 @@ router.route("/").post((req, res) => res.send("Hello POST USER"));
  *       204:
  *         description: User Updated
  */
-router.route("/:userId(\\d+)").put((req, res) => res.send("Hello PUT USER"));
+router.route("/:userId(\\d+)").put(
+  [
+    body("name")
+      .isLength({ min: 3 })
+      .withMessage("the name must have minimum length of 3")
+      .trim(),
+    body("email").isEmail().withMessage("a valid email must be supplied"),
+    body("password")
+      .isLength({ min: 8, max: 15 })
+      .withMessage("your password should have min and max length between 8-15")
+      .matches(/\d/)
+      .withMessage("your password should have at least one number")
+      .matches(/[!@#$%^&*(),.?":{}|<>]/)
+      .withMessage("your password should have at least one special character"),
+  ],
+  validationUtils.validate,
+  userController.updateUser
+);
 
 /**
  * @swagger
@@ -144,8 +180,6 @@ router.route("/:userId(\\d+)").put((req, res) => res.send("Hello PUT USER"));
  *       201:
  *         description: User Deleted
  */
-router
-  .route("/:userId(\\d+)")
-  .delete((req, res) => res.send("Hello DELETE USER"));
+router.route("/:userId(\\d+)").delete(userController.deleteUser);
 
 module.exports = router;

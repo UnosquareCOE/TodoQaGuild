@@ -1,10 +1,7 @@
 const { Router } = require("express");
+const { todoController } = require("../controllers");
+
 const router = Router();
-
-const { todosController } = require("../controllers");
-
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
 
 /**
  * @swagger
@@ -26,6 +23,6 @@ const prisma = new PrismaClient();
  *       204:
  *         description: No content
  */
-router.route("/statuses").get(todosController.getTodoStatuses);
+router.route("/statuses").get(todoController.getTodoStatuses);
 
 module.exports = router;

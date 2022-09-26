@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const { validationUtils } = require("../utils");
-const { body, validationResult } = require("express-validator");
+const { body } = require("express-validator");
+const { projectController } = require("../controllers");
+
 const router = Router();
 
 /**
@@ -23,17 +25,7 @@ const router = Router();
  *       204:
  *         description: No content
  */
-router.route("/").get(async (req, res) => {
-  const projects = await prisma.projects.findMany({
-    select: {
-      id: true,
-      name: true,
-      key: true,
-    },
-  });
-
-  res.status(200).json(projects);
-});
+router.route("/").get(projectController.getAllProjects);
 
 /**
  * @swagger
@@ -60,16 +52,7 @@ router.route("/").get(async (req, res) => {
  *       204:
  *         description: No content
  */
-router.route("/:projectId(\\d+)").get(async (req, res) => {
-  const { projectId } = req.params;
-  const project = await prisma.projects.findUnique({
-    where: {
-      id: parseInt(projectId),
-    },
-  });
-
-  res.status(200).json(project);
-});
+router.route("/:projectId(\\d+)").get(projectController.getProject);
 
 /**
  * @swagger
@@ -109,6 +92,7 @@ router
     [
       body("name")
         .isString()
+        .isLength({ min: 3 })
         .withMessage("the name must have minimum length of 3")
         .trim(),
       body("description")
@@ -120,18 +104,7 @@ router
         .withMessage("your key should be 3 characters only"),
     ],
     validationUtils.validate,
-    async (req, res) => {
-      const { name, description, key } = req.body;
-      await prisma.projects.create({
-        data: {
-          name: name,
-          description: description,
-          key: key,
-        },
-      });
-
-      res.sendStatus(201);
-    }
+    projectController.createProject
   );
 
 /**
@@ -168,10 +141,28 @@ router
  *     responses:
  *       400:
  *         description: Bad Request - required values are missing.
- *       201:
+ *       204:
  *         description: Project Updated
  */
-router.route("/:projectId(\\d+)").put((req, res) => res.send("Hello PUT"));
+router
+  .route("/:projectId(\\d+)")
+  .put(
+    [
+      body("name")
+        .isString()
+        .withMessage("the name must have minimum length of 3")
+        .trim(),
+      body("description")
+        .isString()
+        .withMessage("description is required.")
+        .trim(),
+      body("key")
+        .isLength({ min: 3, max: 3 })
+        .withMessage("your key should be 3 characters only"),
+    ],
+    validationUtils.validate,
+    projectController.updateProject
+  );
 
 /**
  * @swagger
@@ -192,8 +183,6 @@ router.route("/:projectId(\\d+)").put((req, res) => res.send("Hello PUT"));
  *       201:
  *         description: Project Deleted
  */
-router
-  .route("/:projectId(\\d+)")
-  .delete((req, res) => res.send("Hello DELETE"));
+router.route("/:projectId(\\d+)").delete(projectController.deleteProject);
 
 module.exports = router;
