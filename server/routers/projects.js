@@ -34,7 +34,7 @@ router.route("/").get(projectController.getAllProjects);
  *     tags: [
  *       projects
  *     ]
- *     summary: Returns an array of projects items with the name and key
+ *     summary: Returns an single project.
  *     parameters:
  *       - name: projectId
  *         in: path
@@ -80,6 +80,10 @@ router.route("/:projectId(\\d+)").get(projectController.getProject);
  *                 type: string
  *                 required: true
  *                 description: The Key Identifier for the project
+ *             example:
+ *                name: test name
+ *                description: test description
+ *                key: tes
  *     responses:
  *       400:
  *         description: Bad Request - required values are missing.

@@ -19,5 +19,18 @@ services:
       - ./migrations:/flyway/sql
     depends_on:
       - db
+  api:
+    profiles: ["dev"]
+    build:
+      context: ./server
+      dockerfile: dockerfile.local
+    environment:
+      DATABASE_URL: "postgresql://postgres:password@db:5432/todo?schema=public"
+    volumes:
+      - ./server:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - flyway
 volumes:
   db: 

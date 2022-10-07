@@ -2,13 +2,26 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function getAllProjects(req, res) {
-  const projects = await prisma.projects.findMany({
+  const { name } = req.query;
+
+  let retrieval = {
     select: {
       id: true,
       name: true,
       key: true,
     },
-  });
+  };
+
+  if (name && name != "") {
+    retrieval.where = {
+      name: {
+        startsWith: name,
+        mode: "insensitive",
+      },
+    };
+  }
+
+  const projects = await prisma.projects.findMany(retrieval);
 
   if (projects && projects.length > 0) {
     res.status(200).json(projects);

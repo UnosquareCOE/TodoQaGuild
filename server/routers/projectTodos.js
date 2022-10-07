@@ -143,9 +143,9 @@ router.route("/:todoId(\\d+)").put(projectTodoController.updateProjectTodo);
  * /projects/{projectId}/todos/{todoId}:
  *   delete:
  *     tags: [
- *       projects
+ *       todos
  *     ]
- *     summary: Deletes an existing project
+ *     summary: Deletes an existing todo
  *     parameters:
  *       - name: projectId
  *         in: path
