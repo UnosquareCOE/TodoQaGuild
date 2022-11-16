@@ -2,11 +2,13 @@
 
 A website to store and manage todo items. It permits:
 
-- Adding and managing todo items
-- Adding and managing projects to contain todo items.
-- User Login
-- User Registration
-- User Administration
+- MVP
+  - Adding and managing todo items
+  - Adding and managing projects to contain todo items.
+  - User Login
+  - User Registration
+- V1:
+  - User Administration
 
 # Database and Persistance
 
